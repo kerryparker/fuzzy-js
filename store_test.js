@@ -1,29 +1,47 @@
-const myAccount = require("./pages/myAccount");
-
-let user = {
-    firstName: 'Test',
-    lastName: 'Automation',
-    password: '12345',
-    birthDay: '1',
-    birthMonth: '5',
-    birthYear: '1901',
-    company: 'Netflix',
-    state: 'Alabama',
-    city: 'Birmingham',
-    address: '801 Tom Martin Dr.',
-    postalCode: '35211',
-    mobilePhone: "+19159969739",
-}
-
 Feature('store');
 
-Scenario('test something', ({ I, homePage, authPage, createAccountPage }) => {
-    homePage.openStore();
-    homePage.clickSignIn();
-    authPage.fillNewUserEmail(Date.now() + '@test.com');
-    authPage.clickCreateAccount();
-    createAccountPage.fillNewUserForm(user);
-    createAccountPage.submitNewUserForm();
-    myAccount.checkMyAccountText();
-    pause();
+Before(({ homePage }) => {
+  homePage.openStore();
+})
+
+Scenario('test something', ({ navPage, authPage, createAccountPage, myAccountPage, userData }) => {
+  navPage.clickSignInNav();
+  authPage.fillNewUserEmail(userData);
+  authPage.clickCreateAccount();
+  createAccountPage.fillNewUserForm(userData);
+  createAccountPage.submitNewUserForm();
+  myAccountPage.checkMyAccountText();
+});
+
+Scenario('test login & buying', async ({ authPage, myAccountPage, navPage, productPage, I, userData }) => {
+  navPage.clickSignInNav();
+  authPage.fillRegisteredUserLogin(userData);
+  authPage.clickSignInAuth();
+  navPage.clickDressesButton();
+  productPage.clickProductLink();
+  let productPrice = await productPage.getProductPrice();
+  productPage.clickAddToCartBtn();
+  productPage.clickProceedToCheckoutModalBtn()
+  let productShipping = await productPage.getProductShipping();
+  let productTax = await productPage.getProductTax();
+  let productTotalPrice = await productPage.getProductTotalPrice();
+  let actualProductPrice = Number(productPrice.slice(1)) + Number(productShipping.slice(1)) + Number(productTax.slice(1));
+  console.log(actualProductPrice);
+  I.assertEqual('$' + actualProductPrice, productTotalPrice.slice(0, -1));
+
+  productPage.clickProceedToCheckoutBtn();
+  productPage.clickProceedToCheckoutBtn();
+  productPage.clickTermsOFService();
+  productPage.clickProceedToCheckoutBtn();
+  productPage.clickPaymentMethod();
+  productPage.clickconfirmOrderBtn();
+  let orderReferenceOne = await productPage.getOrderReferencefromCheckout();
+  navPage.clickMyAccountBtn();
+  myAccountPage.clickOrderHistory();
+  let orderReferenceTwo = await myAccountPage.getOrderReferencefromAccount();
+  I.assertEqual(orderReferenceOne, orderReferenceTwo);
+});
+
+After(({ navPage }) => {
+  navPage.clickLogOut();
 });

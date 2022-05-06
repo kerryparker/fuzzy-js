@@ -16,8 +16,11 @@ exports.config = {
       show: true,
       browser: 'firefox',
       waitForNavigation: 'networkidle0',
-      waitForTimeout: 10000,
-      timeout: 10000,
+      waitForTimeout: 15000,
+      timeout: 15000,
+    },
+    ChaiWrapper: {
+      require: 'codeceptjs-chai',
     }
   },
   include: {
@@ -25,7 +28,10 @@ exports.config = {
     homePage: './pages/home.js',
     authPage: './pages/auth.js',
     createAccountPage: './pages/createAccount.js',
-    myAccount: './pages/myAccount.js',
+    myAccountPage: './pages/myAccount.js',
+    productPage: './pages/product.js',
+    navPage: './pages/nav.js',
+    userData: './data/user.js',
   },
   bootstrap: null,
   mocha: {},
