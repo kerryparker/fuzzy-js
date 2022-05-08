@@ -19,6 +19,9 @@ exports.config = {
       waitForTimeout: 15000,
       timeout: 15000,
     },
+    Generator_helper: {
+      require: './helpers/generator_helper.js',
+    },
     ChaiWrapper: {
       require: 'codeceptjs-chai',
     }

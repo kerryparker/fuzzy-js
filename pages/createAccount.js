@@ -1,10 +1,12 @@
+const { password } = require("../data/user");
+
 const { I } = inject();
 
 module.exports = {
   genderInput: { css: '#id_gender2' },
   firstNameInput: { css: '#customer_firstname' },
   lastNameInput: { css: '#customer_lastname' },
-  passwordInput: { css: '#passwd'},
+  passwordInput: { css: '#passwd' },
   birthDaySelect: { css: '#days' },
   birthMonthSelect: { css: '#months' },
   birthYearSelect: { css: '#years' },
@@ -15,13 +17,13 @@ module.exports = {
   postalCodeInput: { css: '#postcode' },
   mobilePhoneInput: { css: '#phone_mobile' },
   submitAccountButton: { css: '#submitAccount' },
-  
-  fillNewUserForm(user) {
+
+  fillNewUserForm(user, password) {
     this.waitForPageLoad();
     I.click(this.genderInput);
     I.fillField(this.firstNameInput, user.firstName);
     I.fillField(this.lastNameInput, user.lastName);
-    I.fillField(this.passwordInput, user.password);
+    I.fillField(this.passwordInput, password);
     I.selectOption(this.birthMonthSelect, user.birthMonth);
     I.selectOption(this.birthDaySelect, user.birthDay);
     I.selectOption(this.birthYearSelect, user.birthYear);

@@ -1,9 +1,9 @@
 const { I } = inject();
 
 module.exports = {
-  pageHeadingText: { css: '.page-heading'},
+  pageHeadingText: { css: '.page-heading' },
   orderHistoryBtn: { xpath: '//a[@title="Orders"]' },
-  orderReferenceText: { css:'.color-myaccount' },
+  orderReferenceText: { css: '.color-myaccount' },
 
   waitForPageLoad() {
     I.waitForVisible(this.pageHeadingText);
@@ -11,7 +11,7 @@ module.exports = {
 
   checkMyAccountText() {
     this.waitForPageLoad();
-    I.see(this.pageHeadingText);
+    I.see('My account');
   },
 
   clickOrderHistory() {
@@ -24,7 +24,6 @@ module.exports = {
     let orderReferenceFull = await I.grabTextFrom(this.orderReferenceText);
     let regex = /\b[A-Z]{9}\b/;
     let orderReferenceCorrect = orderReferenceFull.match(regex);
-    console.log(orderReferenceCorrect.toString());
     return orderReferenceCorrect.toString();
   },
 }

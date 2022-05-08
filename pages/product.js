@@ -15,7 +15,7 @@ module.exports = {
   confirmOrderBtn: { css: '#cart_navigation > button' },
   orderCompleteText: { css: '.box' },
   myAccountBtn: { css: '.account' },
-  
+
   waitForPageLoad() {
     I.waitForVisible(this.pageHeadingText);
   },
@@ -71,7 +71,7 @@ module.exports = {
     I.click(this.paymentMethod);
   },
 
-  clickconfirmOrderBtn() {
+  clickConfirmOrderBtn() {
     this.waitForPageLoad();
     I.waitForVisible(this.confirmOrderBtn);
     I.click(this.confirmOrderBtn);
@@ -82,7 +82,6 @@ module.exports = {
     let ordercompleteText = await I.grabTextFrom(this.orderCompleteText);
     let regex = /\b[A-Z]{9}\b/;
     let orderReference = ordercompleteText.match(regex);
-    console.log(orderReference.toString());
     return orderReference.toString();
   },
 

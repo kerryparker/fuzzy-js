@@ -4,26 +4,26 @@ module.exports = {
   newUserEmailInput: { css: '#email_create' },
   createAccountButton: { css: '#SubmitCreate' },
   registeredUserEmailInput: { css: '#email' },
-  registeredUserPasswordInput: { css: '#passwd'},
-  signInButton: {css: '#SubmitLogin'},
+  registeredUserPasswordInput: { css: '#passwd' },
+  signInButton: { css: '#SubmitLogin' },
 
   waitForPageLoad() {
     I.waitForVisible(this.newUserEmailInput);
   },
 
-  fillNewUserEmail(user) {
+  fillNewUserEmail(email) {
     this.waitForPageLoad();
-    I.fillField(this.newUserEmailInput, user.emailNew);
+    I.fillField(this.newUserEmailInput, email);
   },
 
   clickCreateAccount() {
     I.click(this.createAccountButton);
   },
 
-  fillRegisteredUserLogin(user) {
+  fillRegisteredUserLogin(email, password) {
     this.waitForPageLoad();
-    I.fillField(this.registeredUserEmailInput, user.emailRegistered);
-    I.fillField(this.registeredUserPasswordInput, user.password);
+    I.fillField(this.registeredUserEmailInput, email);
+    I.fillField(this.registeredUserPasswordInput, password);
   },
 
   clickSignInAuth() {

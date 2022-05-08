@@ -1,21 +1,23 @@
+const ReadFile = require('./helpers/read_file');
+
 Feature('store');
 
 Before(({ homePage }) => {
   homePage.openStore();
-})
-
-Scenario('test something', ({ navPage, authPage, createAccountPage, myAccountPage, userData }) => {
-  navPage.clickSignInNav();
-  authPage.fillNewUserEmail(userData);
-  authPage.clickCreateAccount();
-  createAccountPage.fillNewUserForm(userData);
-  createAccountPage.submitNewUserForm();
-  myAccountPage.checkMyAccountText();
 });
 
-Scenario('test login & buying', async ({ authPage, myAccountPage, navPage, productPage, I, userData }) => {
-  navPage.clickSignInNav();
-  authPage.fillRegisteredUserLogin(userData);
+Scenario('test something', async ({ I, authPage, createAccountPage, myAccountPage, userData }) => {
+  I.login();
+  authPage.fillNewUserEmail(userData.email = await I.getRandomEmail());
+  authPage.clickCreateAccount();
+  createAccountPage.fillNewUserForm(userData, userData.password = await I.getRandomPassword());
+  createAccountPage.submitNewUserForm();
+  myAccountPage.checkMyAccountText();
+}).tag('@newuser');
+
+Data(ReadFile.getData()).Scenario('test login & buying', async ({ I, authPage, myAccountPage, navPage, productPage, current }) => {
+  I.login();
+  authPage.fillRegisteredUserLogin(current.email, current.password);
   authPage.clickSignInAuth();
   navPage.clickDressesButton();
   productPage.clickProductLink();
@@ -26,7 +28,6 @@ Scenario('test login & buying', async ({ authPage, myAccountPage, navPage, produ
   let productTax = await productPage.getProductTax();
   let productTotalPrice = await productPage.getProductTotalPrice();
   let actualProductPrice = Number(productPrice.slice(1)) + Number(productShipping.slice(1)) + Number(productTax.slice(1));
-  console.log(actualProductPrice);
   I.assertEqual('$' + actualProductPrice, productTotalPrice.slice(0, -1));
 
   productPage.clickProceedToCheckoutBtn();
@@ -34,14 +35,14 @@ Scenario('test login & buying', async ({ authPage, myAccountPage, navPage, produ
   productPage.clickTermsOFService();
   productPage.clickProceedToCheckoutBtn();
   productPage.clickPaymentMethod();
-  productPage.clickconfirmOrderBtn();
+  productPage.clickConfirmOrderBtn();
   let orderReferenceOne = await productPage.getOrderReferencefromCheckout();
   navPage.clickMyAccountBtn();
   myAccountPage.clickOrderHistory();
   let orderReferenceTwo = await myAccountPage.getOrderReferencefromAccount();
   I.assertEqual(orderReferenceOne, orderReferenceTwo);
-});
+}).tag('@buy');
 
-After(({ navPage }) => {
-  navPage.clickLogOut();
+After(({ I }) => {
+  I.logout();
 });
