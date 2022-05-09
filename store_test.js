@@ -27,8 +27,8 @@ Data(ReadFile.getData()).Scenario('test login & buying', async ({ I, authPage, m
   let productShipping = await productPage.getProductShipping();
   let productTax = await productPage.getProductTax();
   let productTotalPrice = await productPage.getProductTotalPrice();
-  let actualProductPrice = Number(productPrice.slice(1)) + Number(productShipping.slice(1)) + Number(productTax.slice(1));
-  I.assertEqual('$' + actualProductPrice, productTotalPrice.slice(0, -1));
+  let actualProductPrice = productPage.getActualProductPrice(productPrice, productShipping, productTax);
+  productPage.checkProductPriceEqual(actualProductPrice, productTotalPrice);
 
   productPage.clickProceedToCheckoutBtn();
   productPage.clickProceedToCheckoutBtn();

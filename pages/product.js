@@ -39,16 +39,17 @@ module.exports = {
   },
 
   clickProceedToCheckoutModalBtn() {
-    this.waitForModalLoad()
+    this.waitForModalLoad();
     I.click(this.proceedToCheckoutModalBtn);
   },
 
   clickProceedToCheckoutBtn() {
-    this.waitForPageLoad()
+    this.waitForPageLoad();
     I.click(this.proceedToCheckoutBtn);
   },
 
   async getProductShipping() {
+    this.waitForPageLoad();
     return await I.grabTextFrom(this.shipping);
   },
 
@@ -58,6 +59,16 @@ module.exports = {
 
   async getProductTotalPrice() {
     return await I.grabTextFrom(this.totalPrice);
+  },
+
+  getActualProductPrice(productPrice, productShipping, productTax) {
+    this.waitForPageLoad();
+    let actualProductPrice = Number(productPrice.slice(1)) + Number(productShipping.slice(1)) + Number(productTax.slice(1));
+    return actualProductPrice;
+  },
+
+  checkProductPriceEqual(actualProductPrice, productTotalPrice) {
+    return I.assertEqual('$' + actualProductPrice, productTotalPrice.slice(0, -1));
   },
 
   clickTermsOFService() {
