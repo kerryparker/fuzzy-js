@@ -28,6 +28,8 @@ Data(ReadFile.getData()).Scenario('test login & buying', async ({ I, authPage, m
   let productTax = await productPage.getProductTax();
   let productTotalPrice = await productPage.getProductTotalPrice();
   let actualProductPrice = productPage.getActualProductPrice(productPrice, productShipping, productTax);
+  let convertedPrice = await productPage.calculateCurrency(actualProductPrice);
+  console.log(`Продукт коштує ${convertedPrice} гривень`);
   productPage.checkProductPriceEqual(actualProductPrice, productTotalPrice);
 
   productPage.clickProceedToCheckoutBtn();

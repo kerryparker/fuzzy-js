@@ -12,8 +12,8 @@ type ChaiWrapper = import('codeceptjs-chai');
 
 declare namespace CodeceptJS {
   interface SupportObject { I: I, current: any, homePage: homePage, authPage: authPage, createAccountPage: createAccountPage, myAccountPage: myAccountPage, productPage: productPage, navPage: navPage, userData: userData }
-  interface Methods extends Playwright, Generator_helper, ChaiWrapper {}
-  interface I extends ReturnType<steps_file>, WithTranslation<Generator_helper>, WithTranslation<ChaiWrapper> {}
+  interface Methods extends Playwright, Generator_helper, ChaiWrapper, REST, JSONResponse {}
+  interface I extends ReturnType<steps_file>, WithTranslation<Generator_helper>, WithTranslation<ChaiWrapper>, WithTranslation<JSONResponse> {}
   namespace Translation {
     interface Actions {}
   }

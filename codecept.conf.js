@@ -24,7 +24,14 @@ exports.config = {
     },
     ChaiWrapper: {
       require: 'codeceptjs-chai',
-    }
+    },
+    REST: {
+      defaultHeaders: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    },
+    JSONResponse: {},
   },
   include: {
     I: './steps_file.js',
