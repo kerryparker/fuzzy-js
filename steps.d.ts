@@ -9,11 +9,12 @@ type navPage = typeof import('./pages/nav.js');
 type userData = typeof import('./data/user.js');
 type Generator_helper = import('./helpers/generator_helper.js');
 type ChaiWrapper = import('codeceptjs-chai');
+type Api = import('./helpers/api_helper.js');
 
 declare namespace CodeceptJS {
   interface SupportObject { I: I, current: any, homePage: homePage, authPage: authPage, createAccountPage: createAccountPage, myAccountPage: myAccountPage, productPage: productPage, navPage: navPage, userData: userData }
-  interface Methods extends Playwright, Generator_helper, ChaiWrapper, REST, JSONResponse {}
-  interface I extends ReturnType<steps_file>, WithTranslation<Generator_helper>, WithTranslation<ChaiWrapper>, WithTranslation<JSONResponse> {}
+  interface Methods extends Playwright, Generator_helper, ChaiWrapper, Api, REST, JSONResponse {}
+  interface I extends ReturnType<steps_file>, WithTranslation<Generator_helper>, WithTranslation<ChaiWrapper>, WithTranslation<Api>, WithTranslation<JSONResponse> {}
   namespace Translation {
     interface Actions {}
   }

@@ -25,6 +25,9 @@ exports.config = {
     ChaiWrapper: {
       require: 'codeceptjs-chai',
     },
+    Api: {
+      require: './helpers/api_helper.js',
+    },
     REST: {
       defaultHeaders: {
         'Content-Type': 'application/json',
