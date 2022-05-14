@@ -6,7 +6,7 @@ class Api extends Helper {
     let currency = 'USD';
     let response = await this.helpers['REST']._executeRequest({
       url: `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=${currency}&json`,
-   });
+    });
     let obj = response.data[0];
     return obj.rate;
   };
